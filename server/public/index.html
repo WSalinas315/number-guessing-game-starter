@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Guess A Number!</title>
-  <script src="vendors/jquery.min.js"></script>
+  <script src="vendors/jquery.js"></script>
   <script src="scripts/client.js"></script>
   <link rel="stylesheet" href="styles/styles.css">
   <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
@@ -16,6 +16,9 @@
     <input type="text" id="user1-guess" placeholder="First Player Guess">
     <input type="text" id="user2-guess" placeholder="Second Player Guess">
     <button id="submit-btn">Submit Guesses</button>
+    <br />
+    <h2>Guesses Submitted</h2>
+    <div id="guess-count">0</div>
 
     <table id="guess-data">
       <thead>
@@ -23,7 +26,7 @@
       </thead>
       <tbody id="guess-log">
 
-        
+
       </tbody>
     </table>
 </body>
