@@ -2,7 +2,7 @@ $(document).ready(readyNow);
 
 function readyNow() {
   console.log("jquery is loaded!");
-
+  resetNumber();
   $('#submit-btn').on('click', makeGuess);
 }
 
@@ -33,4 +33,26 @@ function renderToDom (guesses) {
 
 function winnerExplosion () {
   console.log('Winner found!');
+}
+
+function resetNumber(){
+  let winningNumber = randomNumber(1,25);
+  console.log('Winning number to send to /random is:', winningNumber);
+  $.ajax({
+    method: 'POST',
+    url: '/random',
+    data: {
+      number: winningNumber
+    }
+  }).then(function(response){
+    console.log('Posting new random number');
+  }).catch(function(error){
+    alert("OH NOOOOO");
+  })
+}
+
+function randomNumber(min, max){
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max-min+1) + min);
 }
