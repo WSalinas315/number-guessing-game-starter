@@ -6,17 +6,35 @@ function readyNow() {
   $('#submit-btn').on('click', makeGuess);
 }
 
-function makeGuess () {
+function makeGuess() {
   console.log('Submitting a guess');
+
+  $.ajax({
+    method: 'POST',
+    url: '/guesses',
+    data: {
+      p1Guess: $('#user1-guess').val(),
+      p2Guess: $('#user2-guess').val()
+    }
+  }).then(function(response) {
+    console.log('Posting guesses:', response);
+    getGuess();
+  }).catch(function(error) {
+    alert('Request failed', error);
+  })
+}
+
+function getGuess() {
+  console.log('Getting the guesses');
 
   $.ajax({
     method: 'GET',
     url: '/guesses'
   }).then(function(response) {
-    console.log('Response!', response);
+    console.log('We did it!');
     renderToDom(response);
   }).catch(function(error) {
-    alert('Request failed', error);
+    alert('Error!', error);
   })
 }
 
@@ -25,6 +43,11 @@ function renderToDom (guesses) {
 
   for (let guess of guesses) {
     // guess is too high
+    console.log('guess.p1Guess:', guess.p1Guess);
+    console.log('guess.p2Guess:', guess.p2Guess);
+    if (guess.p1Guess > randomNumber) {
+    }
+
     // guess is too low
     // winner winner
 
