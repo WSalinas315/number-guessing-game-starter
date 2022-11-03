@@ -5,7 +5,8 @@ let winningNumber;
 
 function readyNow() {
   console.log("jquery is loaded!");
-  resetNumber();
+  resetGame();
+
   $('#submit-btn').on('click', makeGuess);
   $('#guess-count').on('click', '#reset-btn', resetGame);
 }
@@ -49,6 +50,19 @@ function renderToDom (guesses) {
 $('#guess-log').empty();
 $('#guess-count').empty();
 guessCounter++;
+
+$.ajax({
+  method: 'POST',
+  url: '/count',
+  data: {
+    number: guessCounter
+  }
+}).then(function(response) {
+  console.log('Ah ah ah!');
+}).catch(function(error) {
+  alert('Error!', error);
+})
+
 $('#guess-count').append(`${guessCounter}`);
 
 for (let guess of guesses) {
@@ -59,33 +73,33 @@ for (let guess of guesses) {
   console.log('guess.p2Guess:', guess.p2Guess);
 
     if (guess.p1Guess > winningNumber) {
-      $('#guess-log').append(`
+      $('#guess-log').prepend(`
         <tr>
           <td>Player One</td>
           <td>${guess.p1Guess}</td>
-          <td>'Guess is too high!'</td>
+          <td>Guess is too high!</td>
         </tr>
       `)
     }
 
     // guess is too low
     else if (guess.p1Guess < winningNumber) {
-      $('#guess-log').append(`
+      $('#guess-log').prepend(`
       <tr>
         <td>Player One</td>
         <td>${guess.p1Guess}</td>
-        <td>'Guess is too low!'</td>
+        <td>Guess is too low!</td>
       </tr>
     `)
     }
 
     // winner winner
     else if (guess.p1Guess == winningNumber) {
-      $('#guess-log').append(`
+      $('#guess-log').prepend(`
       <tr>
         <td>Player One</td>
         <td>${guess.p1Guess}</td>
-        <td class ="celebrate">'You guessed correctly!!'</td>
+        <td class ="celebrate">You guessed correctly!!</td>
       </tr>
     `)
     winnerExplosion();
@@ -94,33 +108,33 @@ for (let guess of guesses) {
     // player two guess
     // guess is too high
     if (guess.p2Guess > winningNumber) {
-      $('#guess-log').append(`
+      $('#guess-log').prepend(`
         <tr>
           <td>Player Two</td>
           <td>${guess.p2Guess}</td>
-          <td>'Guess is too high!'</td>
+          <td>Guess is too high!</td>
         </tr>
       `)
     }
 
     // guess is too low
     else if (guess.p2Guess < winningNumber) {
-      $('#guess-log').append(`
+      $('#guess-log').prepend(`
       <tr>
         <td>Player Two</td>
         <td>${guess.p2Guess}</td>
-        <td>'Guess is too low!'</td>
+        <td>Guess is too low!</td>
       </tr>
     `)
     }
 
     // winner winner
     else if (guess.p2Guess == winningNumber) {
-      $('#guess-log').append(`
+      $('#guess-log').prepend(`
       <tr>
         <td>Player Two</td>
         <td>${guess.p2Guess}</td>
-        <td class ="celebrate">'You guessed correctly!!'</td>
+        <td class ="celebrate">You guessed correctly!!</td>
       </tr>
     `)
     winnerExplosion();
@@ -130,7 +144,7 @@ for (let guess of guesses) {
 
 function winnerExplosion () {
   console.log('Winner found!');
-$('#guess-count').append(`
+$('#reset-btn-space').append(`
 <br />
     <button id="reset-btn">Reset Game</button>
   `)

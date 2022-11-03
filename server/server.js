@@ -5,6 +5,7 @@ const PORT = 5000;
 
 let guessList = require('./modules/guessList.js');
 let randomNumber = require('./modules/randomNumber.js');
+let guessCount = require('./modules/guessCount.js');
 
 // This must be added before GET & POST routes.
 app.use(bodyParser.urlencoded({extended:true}));
@@ -41,6 +42,26 @@ app.post('/random', (req, res) => {
   randomNumber = newNum;
 
   res.sendStatus(200);
+})
+
+app.get('/count', (req, res) => {
+  console.log('Request for /count made', guessCount);
+  res.send(guessCount);
+})
+
+app.post('/count', (req, res) => {
+  console.log('Posting request for /count', req.body);
+
+  let newCount = req.body;
+  guessCount = newCount;
+
+  res.sendStatus(200);
+})
+
+app.delete('/count', (req, res) => {
+  console.log('Request to delete /count made');
+  guessCount = 0;
+  res.sendStatus(201);
 })
 
 // Nuke the guessList for another game
