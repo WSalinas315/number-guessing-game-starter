@@ -1,5 +1,8 @@
 $(document).ready(readyNow);
 
+let guessCounter = 0;
+let winningNumber;
+
 function readyNow() {
   console.log("jquery is loaded!");
   resetNumber();
@@ -40,12 +43,15 @@ function getGuess() {
 
 function renderToDom (guesses) {
   $('#guess-log').empty();
+  $('#guess-count').empty();
+  guessCounter++;
+  $('#guess-count').append(`${guessCounter}`);
 
   for (let guess of guesses) {
     // guess is too high
     console.log('guess.p1Guess:', guess.p1Guess);
     console.log('guess.p2Guess:', guess.p2Guess);
-    if (guess.p1Guess > randomNumber) {
+    if (guess.p1Guess > winningNumber) {
     }
 
     // guess is too low
@@ -59,7 +65,7 @@ function winnerExplosion () {
 }
 
 function resetNumber(){
-  let winningNumber = randomNumber(1,25);
+  winningNumber = randomNumber(1,25);
   console.log('Winning number to send to /random is:', winningNumber);
   $.ajax({
     method: 'POST',
