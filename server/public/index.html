@@ -13,10 +13,22 @@
 <body>
     <h1>Random Number Guessing Game</h1>
     <br />
+    <div id="set-range">
+      <h2>Set your range:</h2>
+      <input type="text" id="minNum" placeholder="Minimum Number">
+      <input type="text" id="maxNum" placeholder="Maximum Number">
+      <br />
+      <button id="range-btn">Submit Range</button>
+    </div>
+    <br />
     <input type="text" id="user1-guess" placeholder="First Player Guess">
     <input type="text" id="user2-guess" placeholder="Second Player Guess">
     <br />
     <button id="submit-btn">Submit Guesses</button>
+    <br />
+    <div class="errorMsg">
+
+    </div>
     <br />
     <h2>Guess Round</h2>
     <div id="guess-count">0</div>

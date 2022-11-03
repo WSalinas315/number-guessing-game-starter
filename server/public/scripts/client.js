@@ -2,17 +2,44 @@ $(document).ready(readyNow);
 
 let guessCounter = 0;
 let winningNumber;
+let minNumber;
+let maxNumber;
 
 function readyNow() {
   console.log("jquery is loaded!");
-  resetGame();
+  //resetGame();
 
   $('#submit-btn').on('click', makeGuess);
-  $('#guess-count').on('click', '#reset-btn', resetGame);
+  $('#range-btn').on('click', setRange);
+  $('#reset-btn-space').on('click', '#reset-btn', resetGame);
+}
+
+function setRange(){
+  minNumber = $('#minNum').val();
+  maxNumber = $('#maxNum').val();
+  resetGame();
+  $('#range-btn').attr('disabled', true);
+  $('#minNum').attr('disabled', true);
+  $('#maxNum').attr('disabled', true);
 }
 
 function makeGuess() {
   console.log('Submitting a guess');
+  $('.errorMsg').empty();
+
+  if(($('#user1-guess').val() === '') || $('#user2-guess').val() === ''){
+    $('.errorMsg').append(`
+      <h4>Both players must make a guess.</h4>
+    `);
+    return;
+  }
+
+  if($('#user1-guess').val() === $('#user2-guess').val()){
+    $('.errorMsg').append(`
+      <h4>Players must guess different numbers. THERE ARE NO TIES HERE.</h4>
+    `);
+    return;
+  }
 
   $.ajax({
     method: 'POST',
@@ -102,7 +129,7 @@ for (let guess of guesses) {
         <td class ="celebrate">You guessed correctly!!</td>
       </tr>
     `)
-    winnerExplosion();
+    winnerExplosion('Player 1');
     } 
 
     // player two guess
@@ -137,22 +164,25 @@ for (let guess of guesses) {
         <td class ="celebrate">You guessed correctly!!</td>
       </tr>
     `)
-    winnerExplosion();
+    winnerExplosion('Player 2');
     } 
   }
 }
 
-function winnerExplosion () {
+function winnerExplosion (player) {
   console.log('Winner found!');
-$('#reset-btn-space').append(`
-<br />
+  let winString = player + ' is the WINNER!!!!!!!!';
+  console.log(winString);
+  $('#reset-btn-space').append(`
+    <br />
     <button id="reset-btn">Reset Game</button>
-  `)
-  alert('WINNER!!');
+  `);
+  alert(winString);
+  $('#submit-btn').attr("disabled", true);
 }
 
 function resetNumber(){
-  winningNumber = randomNumber(1,25);
+  winningNumber = randomNumber(minNumber,maxNumber);
   console.log('Winning number to send to /random is:', winningNumber);
   $.ajax({
     method: 'POST',
@@ -168,6 +198,7 @@ function resetNumber(){
 }
 
 function randomNumber(min, max){
+  console.log('Figure out random number. Min value', min, 'max value', max);
   min = Math.ceil(min);
   max = Math.floor(max);
   return Math.floor(Math.random() * (max-min+1) + min);
@@ -179,6 +210,10 @@ function resetGame() {
   resetNumber();
   $('#guess-log').empty();
   $('#guess-count').empty();
+  $('#submit-btn').attr("disabled", false);
+  $('#range-btn').attr('disabled', false);
+  $('#minNum').attr('disabled', false);
+  $('#maxNum').attr('disabled', false);
 
   $.ajax({
     method: 'DELETE',

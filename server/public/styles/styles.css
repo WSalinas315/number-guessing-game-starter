@@ -3,7 +3,8 @@ body {
 }
 
 .celebrate {
-    color: red;
+    color: darkmagenta;
+    background-color: salmon;
 }
 
 td {
@@ -25,6 +26,10 @@ td {
     justify-content: center;
 }
 
-#submit-btn {
+#submit-btn, #range-btn {
     margin: 20px;
+}
+
+.errorMsg{
+    color: red;
 }
