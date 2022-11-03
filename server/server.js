@@ -43,6 +43,12 @@ app.post('/random', (req, res) => {
   res.sendStatus(200);
 })
 
+// Nuke the guessList for another game
+app.delete('/guesses', (req, res) => {
+    guessList = [];
+    res.sendStatus(200);
+})
+
 app.listen(PORT, () => {
   console.log ('Server is running on port', PORT);
 })
