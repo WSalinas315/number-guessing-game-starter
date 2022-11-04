@@ -1,10 +1,12 @@
 $(document).ready(readyNow);
 
+//global variables
 let guessCounter = 0;
 let winningNumber;
 let minNumber;
 let maxNumber;
 
+// readyNow function
 function readyNow() {
   console.log("jquery is loaded!");
   //resetGame();
@@ -14,6 +16,7 @@ function readyNow() {
   $('#reset-btn-space').on('click', '#reset-btn', resetGame);
 }
 
+// sets number range for the game
 function setRange(){
   minNumber = $('#minNum').val();
   maxNumber = $('#maxNum').val();
@@ -23,6 +26,7 @@ function setRange(){
   $('#maxNum').attr('disabled', true);
 }
 
+// handles sending guesses to the server
 function makeGuess() {
   console.log('Submitting a guess');
   $('.errorMsg').empty();
@@ -56,6 +60,7 @@ function makeGuess() {
   })
 }
 
+// gets guesses from the server
 function getGuess() {
   console.log('Getting the guesses');
 
@@ -73,6 +78,7 @@ function getGuess() {
   })
 }
 
+// render to dom and compare guesses against winning number
 function renderToDom (guesses) {
 $('#guess-log').empty();
 $('#guess-count').empty();
@@ -123,10 +129,10 @@ for (let guess of guesses) {
     // winner winner
     else if (guess.p1Guess == winningNumber) {
       $('#guess-log').prepend(`
-      <tr>
+      <tr class ="celebrate">
         <td>Player One</td>
         <td>${guess.p1Guess}</td>
-        <td class ="celebrate">You guessed correctly!!</td>
+        <td >You guessed correctly!!</td>
       </tr>
     `)
     winnerExplosion('Player 1');
@@ -158,10 +164,10 @@ for (let guess of guesses) {
     // winner winner
     else if (guess.p2Guess == winningNumber) {
       $('#guess-log').prepend(`
-      <tr>
+      <tr class ="celebrate">
         <td>Player Two</td>
         <td>${guess.p2Guess}</td>
-        <td class ="celebrate">You guessed correctly!!</td>
+        <td >You guessed correctly!!</td>
       </tr>
     `)
     winnerExplosion('Player 2');
@@ -169,6 +175,7 @@ for (let guess of guesses) {
   }
 }
 
+// Let the winner know they annihilated their foe
 function winnerExplosion (player) {
   console.log('Winner found!');
   let winString = player + ' is the WINNER!!!!!!!!';
@@ -180,7 +187,7 @@ function winnerExplosion (player) {
   alert(winString);
   $('#submit-btn').attr("disabled", true);
 }
-
+// reset number function
 function resetNumber(){
   winningNumber = randomNumber(minNumber,maxNumber);
   console.log('Winning number to send to /random is:', winningNumber);
@@ -197,6 +204,7 @@ function resetNumber(){
   })
 }
 
+//generate random number with min/max parameters
 function randomNumber(min, max){
   console.log('Figure out random number. Min value', min, 'max value', max);
   min = Math.ceil(min);
@@ -204,6 +212,7 @@ function randomNumber(min, max){
   return Math.floor(Math.random() * (max-min+1) + min);
 }
 
+// function to set up for a new game
 function resetGame() {
   console.log('Resetting Game');
   guessCounter = 0;

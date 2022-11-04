@@ -2,9 +2,21 @@ body {
     text-align: center;
 }
 
+/* call animated color change for winner */
 .celebrate {
-    color: darkmagenta;
-    background-color: salmon;
+    /* color: darkmagenta;
+    background-color: salmon; */
+    animation: color-change 1s infinite;
+}
+
+/* Animated color change */
+@keyframes color-change {
+    0% {color: darkmagenta;}
+    50% {color: gold;}
+    100% {color: darkmagenta;}
+    0% {background-color: gold;}
+    50% {background-color: darkmagenta;}
+    100% {background-color: gold;}
 }
 
 td {
@@ -30,6 +42,7 @@ td {
     margin: 20px;
 }
 
+/* evil red error message */
 .errorMsg{
     color: red;
 }
